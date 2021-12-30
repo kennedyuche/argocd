@@ -25,6 +25,7 @@ jobs:
 
     - name: Setup GKE credentials
       run: |-
+        gcloud auth login
         gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
     
     - name: Install argocd CLI
