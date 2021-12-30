@@ -1,0 +1,47 @@
+
+name: Deploy and Configure ArgoCD in GKE
+
+on:
+  push:
+    branches:
+    - main
+
+env:
+  GKE_CLUSTER: cluster-1    # TODO: update with mavencode GKE cluster name
+  GKE_ZONE: us-central1-c   # TODO: update with mavencode GKE cluster zone
+
+jobs:
+  setup-install:
+    name: Setup, Install
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    
+    - name: Set up Google Cloud CLI
+      uses: google-github-actions/setup-gcloud@v0
+
+    - name: Setup GKE credentials
+      run: |-
+        gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+    
+    - name: Install argocd CLI
+      run: |-
+        curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 chmod +x /usr/local/bin/argocd
+        
+    - name: Install argocd
+      run: |-   
+        kubectl create namespace argocd
+        
+        kubectl apply -n argocd -f https://raw.githubusercontent.com/kennedyuche/argo-cd/master/manifests/install.yaml
+
+        kubectl get ArgoCDs argocd -n argocd
+
+        kubectl rollout status -w deployment/argocd-application-controller -n argocd
+        kubectl rollout status -w deployment/argocd-dex-server -n argocd
+        kubectl rollout status -w deployment/argocd-redis -n argocd
+        kubectl rollout status -w deployment/argocd-repo-server -n argocd
+        kubectl rollout status -w deployment/argocd-server -n argocd
+    
