@@ -7,6 +7,7 @@ on:
     - main
 
 env:
+  GKE_KEY: ${{ GKE_KEY }}
   GKE_CLUSTER: cluster-1    # TODO: update with mavencode GKE cluster name
   GKE_ZONE: us-central1-c   # TODO: update with mavencode GKE cluster zone
 
@@ -23,9 +24,15 @@ jobs:
     - name: Set up Google Cloud CLI
       uses: google-github-actions/setup-gcloud@v0
 
-    - name: Setup GKE credentials
+
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v0.4.0'
+      with:
+        credentials_json: '${{ secrets.GKE_KEY }}'
+
+    #- name: Setup GKE credentials
       run: |-
-        gcloud auth login
         gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
     
     - name: Install argocd CLI
