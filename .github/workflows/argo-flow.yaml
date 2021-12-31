@@ -8,6 +8,7 @@ on:
 
 env:
   GKE_KEY: ${{ secrets.GKE_KEY }}
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: cluster-1    # TODO: update with mavencode GKE cluster name
   GKE_ZONE: us-central1-c   # TODO: update with mavencode GKE cluster zone
 
@@ -33,7 +34,7 @@ jobs:
 
     - name: Setup GKE credentials
       run: |-
-        gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+        gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE" --project '${{ secrets.GKE_PROJECT }}'
     
     - name: Install argocd CLI
       run: |-
