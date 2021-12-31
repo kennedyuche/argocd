@@ -7,7 +7,7 @@ on:
     - main
 
 env:
-  GKE_KEY: ${{ GKE_KEY }}
+  GKE_KEY: ${{ secrets.GKE_KEY }}
   GKE_CLUSTER: cluster-1    # TODO: update with mavencode GKE cluster name
   GKE_ZONE: us-central1-c   # TODO: update with mavencode GKE cluster zone
 
