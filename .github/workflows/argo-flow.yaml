@@ -27,7 +27,7 @@ jobs:
 
     - name: Setup GKE credentials
       run: |-
-        gcloud auth activate-service-account gke-deploy-service@"$PROJECT_ID".iam.gserviceaccount.com --key-file="$GKE_KEY"
+        gcloud auth activate-service-account gke-deploy-service@"$PROJECT_ID".iam.gserviceaccount.com --key-file=gsa-key.json
         gcloud config set project "$GKE_PROJECT"
         gcloud container clusters get-credentials "$GKE_CLUSTER" --zone="$GKE_ZONE"
     
