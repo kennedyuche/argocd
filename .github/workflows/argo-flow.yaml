@@ -34,10 +34,6 @@ jobs:
         cluster_name: ${{ env.GKE_CLUSTER }}
         location: ${{ env.GKE_ZONE }}
         credentials: ${{ secrets.GKE_KEY }}
-    
-    - name: Install argocd CLI
-      run: |-
-        curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 chmod +x /usr/local/bin/argocd
         
     - name: Install argocd
       run: |-   
@@ -45,10 +41,4 @@ jobs:
         
         kubectl apply -n argocd -f https://raw.githubusercontent.com/kennedyuche/argo-cd/master/manifests/install.yaml
 
-        kubectl get ArgoCDs argocd -n argocd
-
-        kubectl rollout status -w deployment/argocd-application-controller -n argocd
-        kubectl rollout status -w deployment/argocd-dex-server -n argocd
-        kubectl rollout status -w deployment/argocd-redis -n argocd
-        kubectl rollout status -w deployment/argocd-repo-server -n argocd
         kubectl rollout status -w deployment/argocd-server -n argocd
