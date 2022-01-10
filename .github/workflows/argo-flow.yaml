@@ -9,7 +9,7 @@ on:
 env:
   GKE_KEY: ${{ secrets.GKE_KEY }}
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: gke-cluster    # Update with mavencode gke cluster name
+  GKE_CLUSTER: cluster-gke    # Update with mavencode gke cluster name
   GKE_ZONE: us-central1-c     # Update with mavencode gke cluster zone
 
 jobs:
