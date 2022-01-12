@@ -36,6 +36,10 @@ jobs:
         
     - name: Install argocd
       run: |-   
+        cd argocd
+
+        kubectl delete namespace argocd
+        
         kubectl create namespace argocd
         
-        kubectl apply -n argocd -f https://raw.githubusercontent.com/MavenCode/argocd-manifest/main/argo-installation-manifest/install.yaml?token=AWTYXWJHHL5JSJWAPYOLW2LB347DG
+        while ! kustomize build install-manifest | kubectl apply -f -; do echo "Retrying to apply resources"; sleep 10; done
