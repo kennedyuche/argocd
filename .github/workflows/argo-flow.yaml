@@ -35,9 +35,7 @@ jobs:
         credentials: ${{ secrets.GKE_KEY }}
         
     - name: Install argocd
-      run: |-   
-        cd argocd
-
+      run: |-  
         kubectl delete namespace argocd
         
         kubectl create namespace argocd
